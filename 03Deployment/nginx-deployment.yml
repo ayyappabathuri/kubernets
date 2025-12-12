@@ -1,0 +1,24 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    name: sravani
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: sravani
+  template:
+    metadata:
+      labels:
+        name: sravani
+    spec:
+      containers:
+        - name: nginx-containers
+          image: nginx
+          ports:
+            - containerPort: 80
+
+

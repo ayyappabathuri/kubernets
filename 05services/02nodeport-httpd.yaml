@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeport-httpd-deploy
+  labels:
+    name: node 
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      name: node
+  template:
+    metadata:
+      labels:
+        name: node
+    spec:
+      containers:
+      - name: httpd-container
+        image: httpd
+        ports:
+          - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nordport-service
+spec:
+  selector:
+    name: node
+  ports:
+    - port: 553
+      targetPort: 80
+      nodePort: 31767
+  type: NodePort
+# in node port target port take some random number  above 30000 
+# nordport-service    NodePort    34.118.225.133   <none>        553:30116/TCP   24s
+# Client → Node External IP:NodePort → NodePort Service → Pod(s)
+# 34.134.151.122(nordexternalip):30116(nordport)--->34.118.225.133(nordport ip)-->10.100.1.39(pod) 
+#nodeport valide range is 30000-32767

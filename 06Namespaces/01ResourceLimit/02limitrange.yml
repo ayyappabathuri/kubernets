@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: combined-limits
+  namespace: dev
+spec:
+  limits:
+    # Pod-level constraints
+    - type: Pod
+      min:
+        cpu: "200m"
+        memory: "200Mi"
+      max:
+        cpu: "1"
+        memory: "1Gi"
+
+    # Container-level constraints (required for defaults)
+    - type: Container
+      min:
+        cpu: "50m"
+        memory: "50Mi"
+      max:
+        cpu: "500m"
+        memory: "500Mi"
+      default:
+        cpu: "150m"
+        memory: "150Mi"
+      defaultRequest:
+        cpu: "100m"
+        memory: "100Mi"

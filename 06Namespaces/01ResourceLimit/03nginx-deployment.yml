@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quotalimit-deployment 
+  namespace: dev
+  labels:
+    role: quotalimit
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      role: quotalimit
+  template:
+    metadata:
+      labels:
+        role: quotalimit
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+            limits:
+              cpu: "150m"
+              memory: "150Mi"

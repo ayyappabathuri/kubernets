@@ -1,0 +1,20 @@
+# stateful set we cannot create separate pvc file what we need to create inside statefulset deployment
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: statefulset-pvc-pd
+spec:
+  resources:
+    requests:
+      storage: 5Gi  #resources → top-level field for resource requirements of a container/PVC
+                    #Inside resources, there are two optional subfields:
+                    #requests → the minimum resources guaranteed
+                    #limits → the maximum resources allowed Limits.storage is usually ignored by most StorageClasses (PD, Filestore, etc.)
+                    #   resources: 
+                          #requests: 
+                            #storage: 10Gi
+                          # limits: 
+                            #storage: 15Gi
+  accessMode:
+    - ReadWriteOnly
+  storageClassName: storage-statefulset-pd 

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: emptydir-httpd-deploy
+  labels:
+    role: empty  
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      role: empty 
+  template:
+    metadata:
+      labels:
+        role: empty 
+    spec:
+      containers:
+      - name: bb-container 
+        image: busybox
+        command: ["sh", "-c", "while true; do echo 'writing' >>/data/log.txt; sleep 10; done"]
+        volumeMounts:
+        - name: emptydir-volume
+          mountPath: /data
+      - name: nginx-container
+        image: nginx
+        volumeMounts:
+        - name: emptydir-volume
+          mountPath: /data  #it share log.txt file and it applicable vicevarse
+      volumes:
+      - name: emptydir-volume 
+        emptyDir: {}

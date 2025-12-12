@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+ name: my-config 
+data:
+  username: ayyappa
+  information: is a very good person

@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-anti-pod-affinity
+  labels:
+    app: nginx
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: mynode
+                operator: NotIn
+                values:
+                - "worker-1"
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: nginx-container
+        image: nginx:1.27
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: antinode-affinity-nginx
+  labels:
+    name: antinode
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      name: antinode
+  template:
+    metadata:
+      labels:
+        name: antinode
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: mynode
+                operator: NotIn      # Avoid nodes with this label
+                values:
+                - "worker-1"
+      containers:
+      - name: antinode-container
+        image: nginx:1.27
+        ports:
+        - containerPort: 80
+

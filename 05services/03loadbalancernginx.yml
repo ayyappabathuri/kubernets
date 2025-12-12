@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loadbalancer-nginx-deployment 
+  labels:
+    app: loadbalancer
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: loadbalancer
+  template:
+    metadata:
+      labels:
+        app: loadbalancer
+    spec:
+      containers:
+      - name: nginx-containers
+        image: nginx
+        ports:
+          - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: loadbalancer-service 
+spec:
+  selector:
+    app: loadbalancer
+  ports:
+    - port: 4445
+      targetPort: 80
+  type: LoadBalancer
+
+  #http://<EXTERNAL-IP>:<Port> (e.g., http://34.118.233.190:4445).

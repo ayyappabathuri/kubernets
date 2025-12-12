@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dynamic-pd-deployment 
+  labels:
+    role: dynamic
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      role: dynamic 
+  template:
+    metadata:
+      labels:
+        role: dynamic 
+    spec:
+      containers:
+      - name: dynamic-pd-container 
+        image: nginx
+        volumeMounts:
+        - name: dynamic-pd-volumes 
+          mountPath: /data
+      volumes:
+      - name: dynamic-pd-volumes 
+        persistentVolumeClaim:
+          claimName: dynamic-pvc

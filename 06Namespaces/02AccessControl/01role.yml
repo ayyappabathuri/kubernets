@@ -1,0 +1,13 @@
+apiVersion:  rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: role-ayyappa-ns 
+  namespace: ayyappa
+rules:
+  - apiGroups: [""] #all api groups like v1, app/v1,etc
+    resources:   #specifing the api names and 
+      - pods    #giving only pods
+      - pods/log
+    resourceNames: ["pod_name1", "podname2"]
+    verbs: ["get","list","create","update"]
+

@@ -1,0 +1,17 @@
+#resource quota is for namespace size
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: dev-resourcequota 
+  namespace: dev
+spec:
+  hard: #we have only one condition hard -->it means Maximum allowed values
+    requests.cpu: "1"
+    requests.memory: "10Gi"
+    limits.cpu: "2"
+    limits.memory: "20Gi"
+    pods: 10
+# requests= min
+# limits= max
+# 2Gi= 2000Mi[mega bytes]
+#  2cpu=2000mi[millicores]

@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1 
+kind: StorageClass
+metadata:
+  name: dynamic-storage-class
+provisioner: pd.csi.storage.gke.io
+reclaimPolicy: Retain #"Delete", "Retain"
+volumeBindingMode: WaitForFirstConsumer #it will wait for pod creation once pod will create then disk will create
+                                  # immediate, WaitForFirstConsumer are the two types
+parameters:
+  type: pd-standard # this is the disk size type 
+# In gce we have four type pd-balanced,pd-ssd, hyperdisk-balanced --> based on requirement we will select

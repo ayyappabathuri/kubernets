@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clusterip-httpd-deployment
+  labels:
+    app: clusterip
+    name: service
+spec:
+  replicas: 3
+  selector: 
+    matchLabels:
+      app: clusterip
+  template:
+    metadata:
+      labels:
+        app: clusterip
+    spec:
+      containers:
+      - name: clusterip-httpd-container
+        image: httpd
+        ports:
+        - containerPort: 80
+      - name: bb-container
+        image: busybox
+        command: ["sleep", "3600"]
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clusterip-service 
+spec:
+  selector:
+    app: clusterip 
+  ports:
+  - protocol: TCP
+    port: 8080 #service ip port this we can give anything
+    targetPort: 80 #this is pod ip which is match to container ip
+  type: ClusterIP
+#"ClusterIP", "ExternalName", "LoadBalancer", "NodePort"
+
+
+#once we login we need to give wget -qO- http://clusterip-service:8080 or 
+                              # wget -qO- http://34.118.233.180:8080

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: statefulset-pd-mysql
+  labels:
+    app: mysql
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mysql 
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: container-pd-mysql 
+        image: mysql:8
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD 
+          valueFrom:
+            secretKeyRef:
+              name: statefulset-pd-secret
+              key:  my-root-password
+        volumeMounts:
+        - name: statefulset-pd-volume 
+          mountPath: /etc/mysql/conf.d
+        - name: statefulset-pvc-pd
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: statefulset-pd-volume 
+        configMap:
+          name: statefulset-pd-configmap 
+          items:
+          - key: my.cnf 
+            path: mee.cnf # we can give any name this file name save in pod but data is my.cnf data 
+  volumeClaimTemplates:
+    - metadata:
+        name: statefulset-pvc-pd
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: storage-statefulset-pd 

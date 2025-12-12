@@ -1,0 +1,21 @@
+# ee example manam pod specify chese node label lekapothe edo oka node loki move chestadi
+apiVersion: v1
+kind: Pod
+metadata:
+  name: prefered-node-affinity
+spec:
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1 #weight tells Kubernetes how strongly it should prefer 
+                    # this rule when choosing a node [1-100]weight: 1 → minimal preference 
+                    #weight: 100 → strong preference
+          preference:
+            matchExpressions:
+              - key: mynode
+                operator: In 
+                values: 
+                - "worker-3"
+  containers:
+    - name: prefered-nginx
+      image: nginx             

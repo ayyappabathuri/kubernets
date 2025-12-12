@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sreelekha-rollnginx
+  labels:
+    name: sreelekha
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      name: sreelekha
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata: 
+      labels:
+        name: sreelekha
+    spec:
+      containers :
+      - name: sreelekha-container
+        image: nginx:1.10.2
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sreelekha-service
+  labels:
+    name: sreelekha
+spec:
+  selector:
+    name: sreelekha
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
+    
+  
+
+

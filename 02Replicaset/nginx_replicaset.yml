@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata: 
+  name: replica-nginx
+  labels:
+    env: dev
+    role: web
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      role: web
+  template:
+    metadata:
+      labels: 
+        role: web
+    spec:
+      containers:
+      - name: replicacute-nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80

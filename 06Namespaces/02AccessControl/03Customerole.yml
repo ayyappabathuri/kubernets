@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata: 
+  name: clusterrole-admin
+rules:
+  - apiGroups: ["*"] #Using "*" means this role applies to every API group.
+    resources: ["*"] #So it applies to pods, deployments, services, nodes, etc.
+    verbs: ["*"] # get, list, create, update, delete, patch, watch, etc.
+
+
+
+
+
+    

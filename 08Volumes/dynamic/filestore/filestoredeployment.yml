@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dynamic-fs-deploy 
+  labels:
+    status: fs
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      status: fs
+  template:
+    metadata:
+      labels:
+        status: fs
+    spec:
+      containers:
+        - name: nginx-fs-container 
+          image: nginx 
+      volumes:
+      - name: dynamic-fs-volume 
+        persistentVolumeClaim:
+          claimName: dynamic-fs-pvc 

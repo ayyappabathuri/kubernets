@@ -1,0 +1,45 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: hostpath-volume
+  labels:
+    role: host
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      role: host
+  template:
+    metadata:
+      labels:
+        role: host
+    spec:
+      containers:
+        - name: nginx-host-container
+          image: nginx
+          ports:
+            - containerPort: 80
+          volumeMounts:
+          - name: host-volume-path
+            mountPath: /data/html
+      volumes:
+      - name: host-volume-path 
+        hostPath:
+          path: /var/lib/kubelet/hostdata # GKE is only read-only so we cannot create any 
+                                          # file or folder if you want we need to use this folder 
+          type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hostpath-service
+spec:
+  selector:
+    role: host
+  ports:
+    - protocol: TCP
+      port: 4445
+      targetPort: 80
+      nodePort: 32456
+  type: NodePort
+

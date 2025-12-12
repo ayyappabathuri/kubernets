@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind:  NetworkPolicy
+metadata:
+  name: egress-rule
+  namespace: default #default namespace
+spec:
+  podSelector:
+    matchLabels:
+      name: vibe
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          role: bye #A namespaceSelector ONLY matches labels on the namespace, NOT the actual name.
+      podSelector:
+        matchLabels:
+          role: network

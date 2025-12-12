@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: manual-fs-deployment 
+  labels:
+    status: manual-fs
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      status: manual-fs
+  template:
+    metadata:
+      labels:
+        status: manual-fs 
+    spec:
+      containers:
+        - name: manual-fs-container
+          image: nginx
+          volumeMounts:
+            - name: manual-fs-volume
+              mountPath: /data
+      volumes:
+        - name: manual-fs-volume
+          persistentVolumeClaim:
+            claimName: fileshare-pvc

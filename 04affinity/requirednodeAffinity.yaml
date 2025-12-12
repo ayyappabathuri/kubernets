@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: node-affinity-nginx
+  labels:
+    app: ayyappa
+spec:
+  affinity:
+    nodeAffinity: ##nodeAffinity, podAffinity, and podAntiAffinity 3 types in affinity
+      requiredDuringSchedulingIgnoredDuringExecution:
+# must and should matchexpressions condition node labels lo undali alla gani lekapothe adhi
+# pod pending status loki veltadi until manam aa label ni create chesedaka
+        nodeSelectorTerms:
+          - matchExpressions:
+            - key: mynode
+              operator: In ##In, NotIn, Exists, DoesNotExist, Gt, and Lt total 6 operators
+              values:
+                - "worker-1"
+  containers:
+    - name: nginx-affinity
+      image: nginx
+
+    #we can change their values remaining steps same 

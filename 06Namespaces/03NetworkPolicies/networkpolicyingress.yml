@@ -1,0 +1,18 @@
+# kubectl label namespace my-namespace team=devops--> creation of label
+#kubectl config set-context --current --namespace=dev
+apiVersion:  networking.k8s.io/v1
+kind:  NetworkPolicy
+metadata: 
+  name: podingress-network-policy
+  namespace: ayyappa
+spec:
+  podSelector:
+    matchLabels:
+      role: network # pod label
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+      - namespaceSelector: 
+          matchLabels:
+            name: vibe # namespace label

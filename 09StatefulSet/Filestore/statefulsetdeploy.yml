@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ss-fs-deploy
+  labels:
+    role: set
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      role: set 
+  template:
+    metadata:
+      labels:
+        role: set
+    spec:
+      containers:
+      - name: ss-fs-container
+        image: alpine
+        command: ["sh", "-c", "sleep 3600"]
+        volumeMounts:
+        - name: ss-fs-volume
+          mountPath: /data
+      volumes:
+      - name: ss-fs-volume 
+        persistentVolumeClaim:
+          claimName: ss-fs-pvc
+  # volumeClaimTemplates:
+  # - metadata:
+  #     name: ss-fs-pvc 
+  #   spec:
+  #     resources:
+  #       requests:
+  #         storage: 1Ti
+  #     accessModes:
+  #     - ReadWriteMany
+  #     storageClassName: ss-sa-fs  */
+
+

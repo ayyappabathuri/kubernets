@@ -1,0 +1,9 @@
+apiVersion: storage.k8s.io/v1 
+kind: StorageClass
+metadata:
+  name: filestore-storageclass 
+provisioner:  filestore.csi.storage.gke.io
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+parameters:
+  tier: BASIC_HDD # BASIC_SSD, ENTERPRISE, HIGH_SCALE_SSD, ZONAL / REGIONAL

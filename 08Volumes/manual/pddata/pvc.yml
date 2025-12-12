@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: manual-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi #The PVC is requesting 10 GiB of persistent storage.
+                    #Kubernetes will find a PV that has ≥10Gi and RWO.

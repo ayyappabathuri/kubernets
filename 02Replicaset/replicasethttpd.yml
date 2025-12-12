@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: httpd-replicaset
+  labels:
+    role: web
+spec:
+  containers:
+  - name: orphan
+    image: httpd

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: manual-pd-deployment 
+  labels:
+    status: manual-pd
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      status: manual-pd
+  template:
+    metadata:
+      labels:
+        status: manual-pd 
+    spec:
+      containers:
+        - name: manual-pd-container
+          image: nginx
+          volumeMounts:
+            - name: manual-pd-volume
+              mountPath: /data
+      volumes:
+        - name: manual-pd-volume
+          persistentVolumeClaim:
+            claimName: manual-pvc

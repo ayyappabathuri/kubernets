@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: rolebinding-pod
+  namespace: ayyappa
+subjects:
+  - kind: User #Group/ServiceAccount
+    name: #username now i don't have users
+    apiGroup: rbac.authorization.k8s.io/v1
+roleRef:
+  kind: Role
+  name: role-ayyappa-ns 
+  apiGroup: rbac.authorization.k8s.io/v1

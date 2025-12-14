@@ -1,0 +1,23 @@
+#kubectl logs <pod-name>
+apiVersion: batch/v1 
+kind: Job
+metadata:
+  name: single-job
+spec:
+  completions: 1          # Job is considered complete after 1 successful pod
+  parallelism: 1          # Only 1 pod runs at a time
+  backoffLimit: 4         # Retry up to 4 times if the pod fails
+  template:
+    spec:
+       containers:
+       - name: example-container
+         image: busybox
+         args:
+          - /bin/sh
+          - -c
+          - |
+            echo "Starting job..."
+            # Simulate some task
+            sleep 10
+            echo "Job completed successfully!"
+       restartPolicy: OnFailure

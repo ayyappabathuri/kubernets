@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: example-cronjob
+spec:
+  schedule: "*/1 * * * *"          # every 5 minutes 1 * * * *
+  concurrencyPolicy: Allow        # what happens if previous job is still running
+  successfulJobsHistoryLimit: 2   # how many successful Jobs to keep
+  failedJobsHistoryLimit: 1        # how many failed Jobs to keep
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - "date; echo Hello from CronJob"
+          restartPolicy: OnFailure

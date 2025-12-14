@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata: 
+  name: multi-job
+spec:
+  completions: 7
+  parallelism: 3
+  backoffLimit: 4
+ # ttlSecondsAfterFinished: 100   # auto-delete Job 100 seconds after completion
+  template:
+    spec:
+      containers:
+      - name: worker
+        image: busybox
+        args:
+          - /bin/sh
+          - -c
+          - |
+            echo "Pod starting"
+            sleep $((RANDOM % 5 + 5))   # Simulate work
+            echo "Pod completed successfully"
+      restartPolicy: OnFailure
+    

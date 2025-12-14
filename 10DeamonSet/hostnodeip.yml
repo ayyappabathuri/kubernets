@@ -1,0 +1,23 @@
+# wget -qO- http://10.128.0.3:8080
+# one port can access one pod only same port cannot use different pods
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-port-01
+  labels:
+    use: host-node 
+spec:
+  selector:
+    matchLabels:
+      use: host-node
+  template:
+    metadata:
+      labels:
+        use: host-node
+    spec:
+      containers:
+      - name: nginx-container 
+        image: nginx 
+        ports:
+        - hostPort: 8082 # this will assing to node ip
+          containerPort: 80

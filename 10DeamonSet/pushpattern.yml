@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata: 
+  name: push-deamon 
+  labels:
+    use: push
+spec:
+  selector:
+    matchLabels:
+      use: push 
+  template:
+    metadata:
+      labels:
+        use: push
+    spec:
+      containers:
+        - name: flusd-container
+          image: fluent/fluentd:v1.16
+          env:
+          - name: ELASTICSEARCH_HOST
+            value: elasticsearch.logging.svc.cluster.local 

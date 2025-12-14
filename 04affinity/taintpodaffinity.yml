@@ -1,3 +1,5 @@
+#remove taint-->kubectl taint nodes gke-ayyappa7997-default-pool-c9efaf59-pwcf role=dev:NoSchedule-
+# add taint-->kubectl taint nodes gke-ayyappa7997-default-pool-c9efaf59-pwcf role=dev:NoSchedule
 apiVersion: v1
 kind: Pod
 metadata: 

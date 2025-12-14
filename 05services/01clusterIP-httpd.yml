@@ -41,3 +41,9 @@ spec:
 
 #once we login we need to give wget -qO- http://clusterip-service:8080 or 
                               # wget -qO- http://34.118.233.180:8080
+
+
+
+#If port ≠ container port → you MUST specify targetPort
+
+#If port = container port → targetPort is optional

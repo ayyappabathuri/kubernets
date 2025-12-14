@@ -1,0 +1,39 @@
+# headless-service.default.svc.cluster.local
+# [servicename].[namespace].svc.cluster.local-->this is the format
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: headleass-use
+  labels:
+    use: headless 
+spec:
+  selector:
+    matchLabels:
+      use: headless 
+  template:
+    metadata:
+      labels:
+        use: headless 
+    spec:
+      containers:
+        - name: headless-container-nginx
+          image: nginx
+          ports:
+          - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: headless-service 
+spec:
+  selector:
+    use: headless
+  clusterIP: None
+  ports:
+  - port: 8280
+    targetPort: 80 
+#If port ≠ container port → you MUST specify targetPort
+
+#If port = container port → targetPort is optional
+
+# if you want to access kubectl port-forward pod/<pod-name> 8080:80--> <LOCAL_PORT> : <POD_PORT>

@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1 
+kind: Ingress
+metadata:
+  name: mahesh-ingress
+  annotations:
+    #nginx.ingress.kubernetes.io/use-regex: "true" # if we use pathtype as prefix then no need this one
+                                      # if you are using type as a ImplementationSpecific need thi one
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - path: /(.*) # this is the defualt page
+        pathType: Prefix #(Prefix/ImplementationSpecific/Exect)
+        backend:
+          service:
+            name: mahesh-service
+            port:
+              number: 8280

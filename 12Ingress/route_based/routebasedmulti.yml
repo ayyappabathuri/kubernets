@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata:
+  name: hostbased-example
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: apple.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: apple-service
+            port:
+              number: 80
+  - host: banana.example.com 
+    http:
+      paths:
+      - path: /
+        pathType: Prefix 
+        backend:
+          service:
+            name: banana-service 
+            port:
+              number: 80
+
+#domain name based and we need to add this urls in A record of dns then only we can access

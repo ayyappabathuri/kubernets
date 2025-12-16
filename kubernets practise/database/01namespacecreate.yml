@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: practice
+# or we can create nelow also
+# kubectl create namespace practice-->creation
+# kubectl config set-context --current --namespace=practice-->change default to practice namespace

@@ -1,0 +1,59 @@
+# for this deployment we used other apis also
+# we created configmap for non-sensitive data like dbname and dbhost
+# we created secrets for sensitive data like username and password
+# we created dynamic persistent disk for the storage purpose
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: practice-mysql
+  namespace: practice
+  labels:
+    role: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: database
+  template:
+    metadata:
+      labels:
+        role: database
+    spec:
+      containers:
+      - name: mysql-container
+        image: mysql:8
+        env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: practice-configmap
+              key: DB_NAME
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: practice-secret
+              key: DB_USER
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: practice-secret
+              key: DB_PASSWORD
+        - name: MYSQL_ROOT_PASSWORD
+          value: rootpass123
+        volumeMounts:
+        - name: practice-volume
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: practice-volume
+        persistentVolumeClaim:
+          claimName: practise-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: practice-service 
+spec:
+  selector:
+    role: database
+  ports:
+  - port: 3306

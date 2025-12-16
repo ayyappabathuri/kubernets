@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: practice-backend
+  namespace: practice
+  labels:
+    role: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      role: backend
+  template:
+    metadata:
+      labels:
+        role: backend
+    spec:
+      containers:
+        - name: backend-container
+          image: hashicorp/http-echo
+          args:
+            - "-text= Hellow from backend"
+          ports:
+            - containerPort: 5678
+          env:
+          - name: DB_HOST #by usig this env it will connect to database
+            valueFrom:
+              configMapKeyRef:
+                name: practice-configmap
+                key:  DB_Host
+          - name: DB_NAME # inside database which one need to connect
+            valueFrom:
+              configMapKeyRef:
+                name: practice-configmap
+                key: DB_NAME
+          - name: DB_USER # authentication to access db username and password
+            valueFrom:
+              secretKeyRef:
+                name: practice-secret
+                key: DB_USER
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: practice-secret
+                key: DB_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: practice-service-backend
+spec:
+  selector:
+    role: backend
+  ports:
+    - port: 80
+      targetPort: 5678
+  type: ClusterIP

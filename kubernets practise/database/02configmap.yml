@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: practice-configmap
+  namespace: practice
+data:
+  DB_Host: practice-service #useful for other pods that want to connect to MySQL.
+                            # this must be match with service name
+  DB_NAME: mydb # to create the database.

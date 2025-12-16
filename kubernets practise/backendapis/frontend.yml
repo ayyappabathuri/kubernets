@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: practice-frontend
+  namespace: practice
+  labels:
+    role: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      role: frontend
+  template:
+    metadata:
+      labels:
+        role: frontend
+    spec:
+      containers:
+      - name: frontend-container
+        image: nginx
+        ports:
+        - containerPort: 80
+        env:
+        - name: MY_BACKEND_URL
+          value: "http://practice-service-backend"
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: practice-service-frontend
+spec:
+  selector:
+    role: frontend
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP

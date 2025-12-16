@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: busybox-pod
+spec: 
+  containers:      
+    - name: busybox
+      image: busybox
+      command:
+      - "/bin/sh"
+      - "-c"
+      - "while true; do wget -qO- http://nginx-deployment; done"
+---
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: busybox-pod-01
+spec: 
+  containers:      
+    - name: busybox1
+      image: busybox
+      command:
+      - "/bin/sh"
+      - "-c"
+      - "while true; do wget -qO- http://nginx-deployment; done"
+---
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: busybox-pod-02
+spec: 
+  containers:      
+    - name: busybox2
+      image: busybox
+      command:
+      - "/bin/sh"
+      - "-c"
+      - "while true; do wget -qO- http://nginx-deployment; done"
+---
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: busybox-pod-03
+spec: 
+  containers:      
+    - name: busybox3
+      image: busybox
+      command:
+      - "/bin/sh"
+      - "-c"
+      - "while true; do wget -qO- http://nginx-deployment; done"

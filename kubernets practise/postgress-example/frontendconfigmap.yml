@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-html
+  namespace: practice
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <body>
+      <h2>Send Message to Database</h2>
+      <input id="msg" placeholder="Type something" />
+      <button onclick="send()">Send</button>
+
+      <script>
+        function send() {
+          fetch('/api/save', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ message: document.getElementById('msg').value })
+          })
+          .then(res => res.text())
+          .then(alert);
+        }
+      </script>
+    </body>
+    </html>

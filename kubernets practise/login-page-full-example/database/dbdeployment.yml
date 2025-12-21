@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: login-db-deploy
+  namespace: practice
+  labels:
+    state: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      state: db
+  template:
+    metadata:
+      labels:
+        state: db
+    spec:
+      containers:
+      - name: login-db-container
+        image: postgres:15
+        envFrom:
+        - configMapRef:
+            name: login-db-cm
+        - secretRef:
+            name: login-db-secret
+        ports:
+        - containerPort: 5432
+      #   volumeMounts:
+      #   - name: db-volume
+      #     mountPath: /var/lib/postgresql/data
+      # volumes:
+      # - name: db-volume
+      #   persistentVolumeClaim:
+      #     claimName: login-db-pvc 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: login-db-service
+spec:
+  selector:
+    state: db
+  ports:
+  - targetPort: 5432
+    port: 5432

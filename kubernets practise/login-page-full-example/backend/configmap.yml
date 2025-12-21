@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: login-db-cm-01
+  namespace: practice
+data:
+  DB_HOST: login-db-service   # Put your Postgres service name here
+  DB_NAME: mydb

@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: frontend-html
+  namespace: practice
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <body>
+      <h2>User Form</h2>
+      <input id="name" placeholder="Name" />
+      <input id="email" placeholder="Email" />
+      <button onclick="save()">Submit</button>
+      <p id="result"></p>
+
+      <script>
+        function save() {
+          fetch("/api/save", {
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({
+              name: document.getElementById("name").value,
+              email: document.getElementById("email").value
+            })
+          })
+          .then(res => res.text())
+          .then(data => document.getElementById("result").innerText = data);
+        }
+      </script>
+    </body>
+    </html>

@@ -1,0 +1,14 @@
+FROM node:18-alpine
+WORKDIR /app
+COPY app.js .
+RUN npm init -y && npm install express pg
+CMD ["node","app.js"]
+
+
+#gcloud auth configure-docker--> login to gci repositories
+# docker tag imagename gcr.io/<PROJECT_ID>/backend-app:1.0
+# docker tag logindocker gcr.io/spring-asset-478912-p4/backend-app:1.0
+#docker push gcr.io/<PROJECT_ID>/backend-app:1.0
+# this is backend steps first we need to create app.js file 
+# next create a image
+# create backend
